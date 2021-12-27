@@ -2,9 +2,6 @@
 <div>
     <div class="d-flex justify-content-between mt-4" v-if="MY_EVENTS.length == 0">
         <div class="ml-2">
-            <!-- <router-link :to="{}">
-                <b-icon icon="arrow-left-circle-fill" font-scale="2"></b-icon>
-            </router-link> -->
         </div>
         <div>
             <h3>У вас нет мероприятий</h3>
@@ -69,10 +66,7 @@ export default {
         getMyEvents(){
             this.$store.dispatch('getMyEvents')
         }
-    },
-    // mounted(){
-    //     this.getMyEvents()
-    // }
+    }
 }
 </script>
 

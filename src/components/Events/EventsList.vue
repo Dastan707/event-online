@@ -37,21 +37,7 @@
                         <b-button class="ml-3" @click="resetFilter" variant="danger">Очистить</b-button>
                 </div>
               </div>
-          <!-- </div> -->
-        <!-- <div class="d-flex justify-content-end mr-2"> -->
             <div class="justify-content-end mt-3">
-            <!-- <router-link :to="{name: 'My-Locations'}">
-            <b-button variant="success">
-                Создать новую локацию
-            </b-button>
-            </router-link> -->
-            <!-- </div>
-            <div> -->
-            <!-- <router-link :to="{name: 'CreateEvent'}">
-            <b-button class="ml-2 mr-2" variant="success">
-                Создать новое мероприятие
-            </b-button>
-            </router-link> -->
             </div>
         </div>
       </div>
@@ -79,7 +65,6 @@
                 first-number
             ></b-pagination>
             </div> -->
-
       </div>
   </div>
 </template>

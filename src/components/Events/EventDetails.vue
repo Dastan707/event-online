@@ -161,14 +161,10 @@ export default {
             .then(() => {
                 this.$refs['modalDelete'].hide();
                 this.toastSuccess('success', 'Ваше мероприятие успешно удалено')
-        
             })
             .catch(error => {
                 console.log(error);
-                // this.toastError('danger', error.message.split(':')[1])
             })
-                console.log(this.EVENTS, 'all events')
-                console.log(this.MY_EVENTS, 'my events');
         },
         editEventBtn(){
             this.$refs['modalEdit'].show()

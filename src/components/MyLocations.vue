@@ -116,9 +116,6 @@ export default {
             const pagesCount = Math.ceil(this.total / this.limit)
             return [...Array(pagesCount).keys()].map(el => el + 1)
         },
-        // currentPage() {
-        //     return Number(this.$route.query.page || 1)
-        // }
     },
     updated() {
         if(this.title) this.errors = ''
@@ -181,8 +178,6 @@ export default {
             this.errors = ''
             this.title = ''
         },
-        
-        
     },
         
     

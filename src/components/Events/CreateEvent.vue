@@ -147,10 +147,8 @@ export default {
                 this.eventData = {};
                 this.selectedAddress = '';
                 this.$router.push({name: 'MyEvents'})
-                console.log(this.EVENTS, 'all eve');
             })
             .catch(error => {
-                console.log(error.message, 'error component');
                 this.toastError('danger', error.message.split(':')[1]);
             })
             } else {
@@ -163,13 +161,6 @@ export default {
         selectLocationId(id, address) {
             this.eventData.locationId = id
             this.selectedAddress = address
-        },
-        onContext(ctx){
-            this.context = ctx
-            console.log(this.context);
-        },
-        onChange(ctx){
-            console.log(ctx);
         }
     },
     computed: {

@@ -56,7 +56,6 @@ const actions = {
               password: user.password
           }
         });
-        // console.log(user, 'user');
         console.log(response.data.signup, 'data');
         // commit('registerSuccess', response.data.signup);
       },

@@ -14,8 +14,7 @@ const state = {
     eventDetails: null,
     eventsFromLocation: [],
     notFound: false,
-    showBtnDetails: false,
-    errors: ''
+    showBtnDetails: false
 }
 
 const getters = {
@@ -55,9 +54,6 @@ const mutations = {
     setAddEvent(state, payload){
       state.myEvents.push(payload)
     },
-    // setAddMyEvent(state, payload){
-    //   state.myEvents.push(payload)
-    // },
     setDeleteEvent(state, id){
       state.eventDetails = null
       state.events = state.events.filter(item => item.id !== id)
@@ -142,7 +138,6 @@ const actions = {
         .then((res) => {
           console.log(res.data.createActivity, 'create event');
           commit('setAddEvent', res.data.createActivity)
-          // commit('setAddMyEvent', res.data.createActivity)
 
         })
       },
