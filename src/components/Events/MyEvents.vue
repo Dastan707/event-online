@@ -40,33 +40,33 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-    name: 'MyEvents',
-    data(){
-        return{}
+  name: 'MyEvents',
+  data () {
+    return {}
+  },
+  computed: {
+    ...mapGetters([
+      'MY_EVENTS'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'getMyEvents',
+      'getEventDetails',
+      'getAllEvents'
+    ]),
+    toEventDetails (eventItem) {
+      console.log(eventItem, 'eventitem')
+      this.getEventDetails(eventItem.id)
+        .then(() => {
+          this.$router.push({ name: 'EventDetails', params: { id: eventItem.id, event: eventItem } })
+        })
+        .catch(error => console.log(error))
     },
-    computed: {
-        ...mapGetters([
-            'MY_EVENTS'
-        ])
-    },
-    methods: {
-        ...mapActions([
-            'getMyEvents',
-            'getEventDetails',
-            'getAllEvents'
-        ]),
-        toEventDetails(eventItem){
-            console.log(eventItem, 'eventitem');
-            this.getEventDetails(eventItem.id)
-            .then(() => {
-                this.$router.push({name: 'EventDetails', params:{id: eventItem.id, event: eventItem}})
-            })
-            .catch(error => console.log(error))
-        },
-        getMyEvents(){
-            this.$store.dispatch('getMyEvents')
-        }
+    getMyEvents () {
+      this.$store.dispatch('getMyEvents')
     }
+  }
 }
 </script>
 

@@ -54,11 +54,11 @@
         label="Дата проведения мероприятия:"
         label-for="datepicker"
       >
-            <b-form-datepicker 
-            type="date" 
-            required 
-            id="datepicker" 
-            v-model="eventData.day" 
+            <b-form-datepicker
+            type="date"
+            required
+            id="datepicker"
+            v-model="eventData.day"
             class="mb-2"
             :hide-header="true"
             :date-disabled-fn="disabledDate"
@@ -70,8 +70,8 @@
         </b-form-group>
         <b-form-group>
             <b-dropdown id="dropdown-1" text="Выберите локацию" class="m-md-2">
-                <b-dropdown-item 
-                    v-for="locationItem in locations" 
+                <b-dropdown-item
+                    v-for="locationItem in locations"
                     :key="locationItem.id"
                     @click="selectLocationId(locationItem.id, locationItem.address)"
                 >
@@ -88,91 +88,91 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-    name: "CreateEvent",
-    data(){
-        const now = new Date()
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-        return {
-            eventData: {
-                name: '',
-                description: '',
-                day: '',
-                locationId: ''
-            },
-            selectedAddress: '',
-            minDay: '',
-            maxDay: '',
-            todayDay: today
+  name: 'CreateEvent',
+  data () {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    return {
+      eventData: {
+        name: '',
+        description: '',
+        day: '',
+        locationId: ''
+      },
+      selectedAddress: '',
+      minDay: '',
+      maxDay: '',
+      todayDay: today
 
-        }
-    },
-    methods: {
-        ...mapActions([
-            'getAllEvents',
-            'addEvent',
-            'getAllLocations'
-        ]),
-        toastError(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Ошибка!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        toastSuccess(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Отлично!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        disabledDate(){
-            this.minDay = this.todayDay
-        },
-        addEventBtn(){
-            if(this.eventData.day && this.selectedAddress){
-            this.$store.dispatch('addEvent',{
-                name: this.eventData.name,
-                description: this.eventData.description,
-                day: this.eventData.day,
-                location: this.eventData.locationId
-            })
-            .then(() => {
-                this.toastSuccess('success', 'Ваше мероприятие успешно добавлено');
-                this.eventData = {};
-                this.selectedAddress = '';
-                this.$router.push({name: 'MyEvents'})
-            })
-            .catch(error => {
-                this.toastError('danger', error.message.split(':')[1]);
-            })
-            } else {
-                this.toastError('danger', 'Выберите дату или локацию для своего мероприятия');
-            }
-        },
-        resetAll(){
-            this.eventData = {}
-        },
-        selectLocationId(id, address) {
-            this.eventData.locationId = id
-            this.selectedAddress = address
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'EVENTS',
-            'locations',
-            'ERRORS'
-        ])
-    },
-    mounted(){
-        this.getAllLocations()
     }
+  },
+  methods: {
+    ...mapActions([
+      'getAllEvents',
+      'addEvent',
+      'getAllLocations'
+    ]),
+    toastError (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Ошибка!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    toastSuccess (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Отлично!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    disabledDate () {
+      this.minDay = this.todayDay
+    },
+    addEventBtn () {
+      if (this.eventData.day && this.selectedAddress) {
+        this.$store.dispatch('addEvent', {
+          name: this.eventData.name,
+          description: this.eventData.description,
+          day: this.eventData.day,
+          location: this.eventData.locationId
+        })
+          .then(() => {
+            this.toastSuccess('success', 'Ваше мероприятие успешно добавлено')
+            this.eventData = {}
+            this.selectedAddress = ''
+            this.$router.push({ name: 'MyEvents' })
+          })
+          .catch(error => {
+            this.toastError('danger', error.message.split(':')[1])
+          })
+      } else {
+        this.toastError('danger', 'Выберите дату или локацию для своего мероприятия')
+      }
+    },
+    resetAll () {
+      this.eventData = {}
+    },
+    selectLocationId (id, address) {
+      this.eventData.locationId = id
+      this.selectedAddress = address
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'EVENTS',
+      'locations',
+      'ERRORS'
+    ])
+  },
+  mounted () {
+    this.getAllLocations()
+  }
 }
 </script>
 

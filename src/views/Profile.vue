@@ -28,7 +28,6 @@
                         v-model="newPassword"
                         required
                     ></b-form-input>
-
                 </b-form-group>
                 <b-form-group
                     label="Подтвердите пароль"
@@ -42,7 +41,6 @@
                 </b-form-group>
                 <span class="errors-change-password">{{errorsChangePassword}}</span>
         </Modal>
-
         <div class="profile-data">
             <div class="profile-data__link">
                 <router-link :to="{name: 'MyEvents'}">
@@ -57,13 +55,12 @@
                 </router-link>
             </div>
         </div>
-
         <div class="profile-details">
             <h3 class="profile-details__title">Персональные данные</h3>
             <div class="profile-details__data">
-                <p class="data-name grey">Имя пользователя<span class="black">{{user.username}}</span></p> 
+                <p class="data-name grey">Имя пользователя<span class="black">{{user.username}}</span></p>
                 <p class="data-email grey">Email<span class="black">{{user.email}}</span></p>
-                <b-button 
+                <b-button
                     v-b-modal.modal-prevent-closing
                     @click="showModal('CHANGE_PASSWORD')"
                 >
@@ -71,13 +68,9 @@
                 </b-button>
             </div>
         </div>
-
-        
-
-
         <div class="profile-card">
             <h3>Профиль</h3>
-            <p class="data-name grey mb-0 mt-3">Имя пользователя</p> 
+            <p class="data-name grey mb-0 mt-3">Имя пользователя</p>
             <h4 class="profile-card__name">{{user.username}}</h4>
         </div>
     </div>
@@ -87,75 +80,74 @@
 import Modal from '../components/ModalLocation.vue'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
-    name: 'Gprofile',
-    components: {
-        Modal
-    },
-    data() {
-        return {
-            oldPassword: '',
-            newPassword: '',
-            confirmPassword: '',
-            isVisibleLocation: '',
-            errors: ''
-        }
-    },
-    updated() {
-        if(this.oldPassword && this.newPassword && this.confirmPassword) this.errors = ''
-    },
-    computed: {
-        ...mapGetters({
-            user: 'USER',
-            locationsByUser: 'locationsByUser',
-            isLoadingBtn: 'isLoadingBtn',
-            errorsChangePassword: 'errorsChangePassword',
-            myEvents: 'MY_EVENTS'
-        })
-    },
-    methods: {
-        ...mapMutations({
-            changePasswordClear: 'changePasswordClear'
-        }),
-        makeToast(variant = null, title, body) {
-            this.$bvToast.toast(`${body} `, {
-                title: `${title || 'default'}`,
-                variant: variant,
-                solid: true,
-            })
-        },
-        showModal(key, id) {
-            this.isVisibleModal = true
-            this.isVisibleLocation = key
-            this.id = id
-        },
-        closeModal() {
-            this.isVisibleLocation = null
-            this.errors = ''
-            this.oldPassword = ''
-            this.newPassword = ''
-            this.confirmPassword = ''
-            this.changePasswordClear()
-        },
-        changePassword() {
-            if(!this.oldPassword || !this.newPassword || !this.confirmPassword) {
-                this.errors = 'Заполните все поля'
-                this.changePasswordClear()
-                return 
-            }
-            console.log(this.oldPassword, this.newPassword, this.confirmPassword);
-            this.$store.dispatch('changePassword', {
-                oldPassword: this.oldPassword,
-                newPassword: this.newPassword,
-                confirmPassword: this.confirmPassword
-            }).then(() => {
-                this.closeModal()
-                this.makeToast('success', 'Успешно', 'Пароль изменен')
-            }).catch(error => {
-                this.$store.commit("changePasswordFailure", error.message)  
-                })
-        }
-        
+  name: 'Gprofile',
+  components: {
+    Modal
+  },
+  data () {
+    return {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      isVisibleLocation: '',
+      errors: ''
     }
+  },
+  updated () {
+    if (this.oldPassword && this.newPassword && this.confirmPassword) this.errors = ''
+  },
+  computed: {
+    ...mapGetters({
+      user: 'USER',
+      locationsByUser: 'locationsByUser',
+      isLoadingBtn: 'isLoadingBtn',
+      errorsChangePassword: 'errorsChangePassword',
+      myEvents: 'MY_EVENTS'
+    })
+  },
+  methods: {
+    ...mapMutations({
+      changePasswordClear: 'changePasswordClear'
+    }),
+    makeToast (variant = null, title, body) {
+      this.$bvToast.toast(`${body} `, {
+        title: `${title || 'default'}`,
+        variant: variant,
+        solid: true
+      })
+    },
+    showModal (key, id) {
+      this.isVisibleModal = true
+      this.isVisibleLocation = key
+      this.id = id
+    },
+    closeModal () {
+      this.isVisibleLocation = null
+      this.errors = ''
+      this.oldPassword = ''
+      this.newPassword = ''
+      this.confirmPassword = ''
+      this.changePasswordClear()
+    },
+    changePassword () {
+      if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
+        this.errors = 'Заполните все поля'
+        this.changePasswordClear()
+        return
+      }
+      this.$store.dispatch('changePassword', {
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword,
+        confirmPassword: this.confirmPassword
+      }).then(() => {
+        this.closeModal()
+        this.makeToast('success', 'Успешно', 'Пароль изменен')
+      }).catch(error => {
+        this.$store.commit('changePasswordFailure', error.message)
+      })
+    }
+
+  }
 
 }
 </script>

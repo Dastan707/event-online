@@ -1,6 +1,6 @@
 <template>
     <div class="location">
-        <Modal 
+        <Modal
             v-if="isVisibleLocation === 'CREATE'"
             @closeModal="closeModal"
             @btnMethod="createLocation"
@@ -11,8 +11,7 @@
         >
             <b-input v-model="title"></b-input>
         </Modal>
-
-        <Modal 
+        <Modal
             v-if="isVisibleLocation === 'EDIT'"
             @closeModal="closeModal"
             @btnMethod="editLocation"
@@ -24,7 +23,6 @@
         >
             <b-input v-model="title"></b-input>
         </Modal>
-
         <div class="location-header wrapper">
             <h5 class="location-table__title">Мои локации</h5>
             <b-button
@@ -35,12 +33,9 @@
             >
                 Добавить местоположение
             </b-button>
-
         </div>
-        
         <div class="location-table"></div>
         <div class="ml-md-auto">
-
             <div v-if="isLoading" class="spinner">
                 <b-spinner type="grow" label="Spinning"></b-spinner>
                 <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
@@ -51,7 +46,6 @@
                     <router-link :to="{name: 'card-location', params: {id: location.id, location: location}}">
                         <h4 >{{location.address}}</h4>
                     </router-link>
-
                     <div>
                         <b-button
                             variant="success"
@@ -60,8 +54,7 @@
                         >
                             <i class="fas fa-edit"></i>
                         </b-button>
-                        
-                        <b-button 
+                        <b-button
                             variant="danger"
                             class="btn-delete__location btn-no-style btn-location"
                             disabled
@@ -88,99 +81,90 @@
 <script>
 import Modal from './ModalLocation.vue'
 import { mapGetters } from 'vuex'
-import Pagination from './Pagination.vue'
 export default {
-    name: 'Glocation',
-    components: {
-        Modal,
-        Pagination
+  name: 'Glocation',
+  components: {
+    Modal
+  },
+  data () {
+    return {
+      title: '',
+      id: null,
+      isVisibleModal: false,
+      isVisibleLocation: '',
+      errors: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      locationsByUser: 'locationsByUser',
+      isLoadingBtn: 'isLoadingBtn',
+      isLoading: 'isLoading',
+      error: 'error'
+    })
+  },
+  updated () {
+    if (this.title) this.errors = ''
+  },
+  methods: {
+    makeToast (variant = null, title, body) {
+      this.$bvToast.toast(`${body} `, {
+        title: `${title || 'default'}`,
+        variant: variant,
+        solid: true,
+        autoHideDelay: 2000
+      })
     },
-    data() {
-      return {
-        title: '',
-        id: null,
-        isVisibleModal: false,
-        isVisibleLocation: '',
-        errors: '',
-        currentPage: 1
+    getAllLocationsByUser () {
+      this.$store.dispatch('getAllLocationsByUser')
+    },
+    createLocation () {
+      if (!this.title) {
+        this.errors = 'Поле не заполнено'
+        return
       }
+      this.$store.dispatch('createLocation', this.title).then(() => {
+        this.makeToast('success', 'Успешно', 'Добавление выполнено')
+        this.closeModal()
+      })
     },
-    computed: {
-        ...mapGetters({
-            locationsByUser: 'locationsByUser',
-            isLoadingBtn: 'isLoadingBtn',
-            isLoading: 'isLoading',
-            error: 'error'
-        }),
-        pages() {
-            const pagesCount = Math.ceil(this.total / this.limit)
-            return [...Array(pagesCount).keys()].map(el => el + 1)
-        },
+    editLocation (locationId) {
+      if (!this.title) {
+        this.errors = 'Поле не заполнено'
+        return
+      }
+      this.$store.dispatch('editLocation', {
+        id: locationId, title: this.title
+      }).then(() => {
+        this.makeToast('success', 'Успешно', 'Изменение выполнено')
+        this.closeModal()
+      }).catch(error => {
+        this.makeToast('danger', 'Ошибка', error.message.split(':')[1])
+        this.$store.commit('EDIT_LOCATION_FAILURE')
+      })
     },
-    updated() {
-        if(this.title) this.errors = ''
+    deleteLocation (id) {
+      this.$store.dispatch('deleteLocation', id).then(() => {
+        this.makeToast('success', 'Успешно', 'Удаление выполнено')
+      })
+        .catch(error => {
+          this.makeToast('danger', 'Ошибка', error.message.split(':')[1])
+          this.$store.commit('DELETE_LOCATION_FAILURE', error.message)
+          console.log(error.message)
+        })
     },
-    methods: {
-        makeToast(variant = null, title, body) {
-            this.$bvToast.toast(`${body} `, {
-                title: `${title || 'default'}`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 2000
-            })
-        },
-        getAllLocationsByUser() {
-            this.$store.dispatch('getAllLocationsByUser')
-        },
-        createLocation() {
-            if(!this.title) {
-                this.errors = 'Поле не заполнено'
-                return    
-            }
-            this.$store.dispatch('createLocation', this.title).then(() => {
-                this.makeToast('success', 'Успешно', 'Добавление выполнено')
-                this.closeModal()
-            })
-            
-        },
-        editLocation(locationId) {
-            if(!this.title) {
-                this.errors = 'Поле не заполнено'
-                return    
-            }
-            this.$store.dispatch('editLocation', {
-                id: locationId, title: this.title
-            }).then(() => {
-                    this.makeToast('success', 'Успешно', 'Изменение выполнено')
-                    this.closeModal()
-                }).catch(error => {
-                    this.makeToast('danger', 'Ошибка', error.message.split(':')[1])
-                    this.$store.commit('EDIT_LOCATION_FAILURE')
-                })
-        },
-        deleteLocation(id) {  
-            this.$store.dispatch('deleteLocation', id).then(() => {
-                this.makeToast('success', 'Успешно', 'Удаление выполнено')
-            })
-            .catch(error => {
-                this.makeToast('danger', 'Ошибка', error.message.split(':')[1])
-                this.$store.commit('DELETE_LOCATION_FAILURE', error.message)
-                console.log(error.message);
-            })
-        },
-        showModal(key, id) {
-            this.isVisibleModal = true
-            this.isVisibleLocation = key
-            this.id = id
-        },
-        closeModal() {
-            this.isVisibleLocation = null
-            this.errors = ''
-            this.title = ''
-        },
+    showModal (key, id) {
+      this.isVisibleModal = true
+      this.isVisibleLocation = key
+      this.id = id
     },
-        
-    
+    closeModal () {
+      this.isVisibleLocation = null
+      this.errors = ''
+      this.title = ''
+    }
+  }
+
 }
 </script>
 

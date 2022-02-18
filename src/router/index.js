@@ -1,12 +1,12 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
-import CreateEvent from '../components/Events/CreateEvent.vue';
-import Login from '../components/Auth/Login.vue';
-import Register from '../components/Auth/Register.vue';
-import EventsList from '../components/Events/EventsList.vue';
-import MyEvents from '../components/Events/MyEvents.vue';
-import EventDetails from '../components/Events/EventDetails.vue';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import CreateEvent from '../components/Events/CreateEvent.vue'
+import Login from '../components/Auth/Login.vue'
+import Register from '../components/Auth/Register.vue'
+import EventsList from '../components/Events/EventsList.vue'
+import MyEvents from '../components/Events/MyEvents.vue'
+import EventDetails from '../components/Events/EventDetails.vue'
 import isAuth from '../store/auth'
 
 Vue.use(VueRouter)
@@ -16,7 +16,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    redirect: {name: 'Login'}
+    redirect: { name: 'Login' }
   },
   {
     path: '/create-event',
@@ -32,7 +32,7 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta:{ requiresHeader: true }
+    meta: { requiresHeader: true }
   },
   {
     path: '/events-list',
@@ -78,7 +78,7 @@ const routes = [
     name: 'Error',
     props: true,
     component: () => import('../components/404')
-  },
+  }
 ]
 
 const router = new VueRouter({
@@ -88,14 +88,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.name !== 'Login' && to.name !== 'Register' && !isAuth.state.isAuth) {
-    next({name: 'Login'})
-  }
-  else next()
-  if(isAuth.state.isAuth && to.name === 'Login' || isAuth.state.isAuth && to.name === 'Register') {
-    next({name: 'EventsList'})
-  }
-  else next()
+  if (to.name !== 'Login' && to.name !== 'Register' && !isAuth.state.isAuth) { // eslint-disable-line
+    next({ name: 'Login' })
+  } else next()
+  if (isAuth.state.isAuth && to.name === 'Login' || isAuth.state.isAuth && to.name === 'Register') { // eslint-disable-line
+    next({ name: 'EventsList' })
+  } else next()
 })
 
 export default router

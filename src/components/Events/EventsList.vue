@@ -31,9 +31,9 @@
                     :hide-header="true"
                     ></b-form-datepicker>
                 </div>
-                <div class="ml-4 btns-block"> 
+                <div class="ml-4 btns-block">
                         <b-button @click="filterDateBtn" variant="primary">Искать</b-button>
-                    
+
                         <b-button class="ml-3" @click="resetFilter" variant="danger">Очистить</b-button>
                 </div>
               </div>
@@ -52,19 +52,11 @@
                         Локация: {{item.location.address}}
                         <div class="mt-2">
                             <p class="mb-1">Дата: {{new Date(item.day).toLocaleDateString()}} </p>
-                            <p>Организатор: <b>{{item.account.username}}</b></p>     
+                            <p>Организатор: <b>{{item.account.username}}</b></p>
                         </div>
                     </div>
                 </li>
             </ul>
-            <!-- <div class="d-flex justify-content-center mt-5">
-                <b-pagination
-                v-model="currentPage"
-                :total-rows="rows"
-                :per-page="perPage"
-                first-number
-            ></b-pagination>
-            </div> -->
       </div>
   </div>
 </template>
@@ -72,80 +64,78 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-    name: 'EventsList',
-    data(){
-        return {
-            events: [],
-            filterData: {
-                startDay: '',
-                endDay: ''
-            },
-            minStartDay: '',
-            maxStartDay: '',
-            minEndDay: '',
-            maxEndDay: '',
-            rows: 10,
-            perPage: 1
-        }
-    },
-    methods: {
-        toastError(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Ошибка!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        toastSuccess(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Отлично!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        disabledDate() {
-            if(this.filterData.startDay > this.filterData.endDay) {
-                this.filterData.endDay = this.filterData.startDay
-                this.minEndDay = this.filterData.startDay
-            }
-        },
-        ...mapActions([
-            'getAllEvents',
-            'getEventDetails',
-            'getMyEvents'
-        ]),
-        filterDateBtn(){
-            if(this.filterData.startDay && this.filterData.endDay){
-            this.$store.dispatch('getEventsByDates', {
-                startDay: this.filterData.startDay,
-                endDay: this.filterData.endDay
-            })
-            .then((res) => {
-                console.log(res, 'success');
-            })
-            .catch(error => console.log(error))
-            } else {
-                this.toastError('danger', 'Заполните поля')
-            }
-
-        },
-        resetFilter(){
-            this.filterData = {};
-            this.getAllEvents()
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'EVENTS',
-            'SHOW_BTN_DETAILS'
-        ])
-    },
-    mounted(){
-        this.getAllEvents()
-        console.log(this.EVENTS, 'events mounted');
+  name: 'EventsList',
+  data () {
+    return {
+      events: [],
+      filterData: {
+        startDay: '',
+        endDay: ''
+      },
+      minStartDay: '',
+      maxStartDay: '',
+      minEndDay: '',
+      maxEndDay: '',
+      rows: 10,
+      perPage: 1
     }
+  },
+  methods: {
+    toastError (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Ошибка!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    toastSuccess (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Отлично!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    disabledDate () {
+      if (this.filterData.startDay > this.filterData.endDay) {
+        this.filterData.endDay = this.filterData.startDay
+        this.minEndDay = this.filterData.startDay
+      }
+    },
+    ...mapActions([
+      'getAllEvents',
+      'getEventDetails',
+      'getMyEvents'
+    ]),
+    filterDateBtn () {
+      if (this.filterData.startDay && this.filterData.endDay) {
+        this.$store.dispatch('getEventsByDates', {
+          startDay: this.filterData.startDay,
+          endDay: this.filterData.endDay
+        })
+          .then((res) => {
+            console.log(res, 'success')
+          })
+          .catch(error => console.log(error))
+      } else {
+        this.toastError('danger', 'Заполните поля')
+      }
+    },
+    resetFilter () {
+      this.filterData = {}
+      this.getAllEvents()
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'EVENTS',
+      'SHOW_BTN_DETAILS'
+    ])
+  },
+  mounted () {
+    this.getAllEvents()
+  }
 }
 </script>
 
@@ -165,7 +155,6 @@ ul,li {
     list-style-type: none;
 }
 .event-list {
-    /* padding: 0; */
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
@@ -173,12 +162,10 @@ ul,li {
 .event-list__item {
     width: 18%;
     padding: 20px 0;
-    /* box-shadow: 0 5px 2px rgba(54, 54, 54, 0.377); */
     border: 1px solid #ddd;
     border-radius: 5px;
     margin: 10px;
     transition: 0.2s ease-in-out;
-
 
 }
 .event-list__item:hover{

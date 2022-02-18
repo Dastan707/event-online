@@ -22,19 +22,13 @@ export default {
       'getMyEvents'
     ])
   },
-  created() {
-    if(localStorage.getItem('apollo-token')) {
+  created () {
+    if (localStorage.getItem('apollo-token')) {
       this.getMyEvents()
       this.$store.dispatch('getCurrentUser')
       this.$store.dispatch('getAllLocationsByUser')
     }
-  },
-  // updated() {
-  //   if(localStorage.getItem('apollo-token')) {
-  //     this.$store.dispatch('getCurrentUser')
-  //   }
-  // }
-
+  }
 }
 </script>
 

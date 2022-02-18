@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 
-
 export const GET_CURRENT_USER = gql`
     query{
         profile{
@@ -15,7 +14,6 @@ export const GET_CURRENT_USER = gql`
           }
     }
 `
-
 
 export const GET_MY_EVENTS = gql`
 query{
@@ -35,7 +33,7 @@ query{
     }
   }
 `
-// 
+//
 export const GET_ALL_EVENTS = gql`
 query{
   findAllActivities{
@@ -53,27 +51,7 @@ query{
     }
   }
 }
-` 
-
-// query all events with pagination
-// export const GET_ALL_EVENTS = gql`
-// query($skip: Int!, $take: Int!){
-//   findAllActivities(skip: $skip, take: $take){
-//     id
-//     name
-//     description
-//     day
-//     location{
-//       id
-//       address
-//     }
-//     account{
-//       id
-//       username
-//     }
-//   }
-// }
-// `
+`
 
 export const LOCATIONS = gql`
 query {
@@ -87,7 +65,7 @@ query {
       }
     },
   }
-`;
+`
 
 export const LOCATIONS_BY_USER = gql`
     query {
@@ -126,7 +104,6 @@ query{
 }
 `
 
-
 export const GET_EVENTS_BY_DATES = gql`
 query($startDay: String!, $endDay: String!) {
   dates(dateIntervalInput: { startDay: $startDay, endDay: $endDay }) {
@@ -144,7 +121,7 @@ query($startDay: String!, $endDay: String!) {
     }
   }
 }
-`;
+`
 
 export const GET_ALL_EVENTS_FROM_LOCATION = gql`
     query($id: Int!){

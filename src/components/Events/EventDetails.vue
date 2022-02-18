@@ -38,7 +38,7 @@
                 <div class="event-details__body">
                      <div class="d-flex flex-column align-items-center mt-3">
                         <div class="d-flex align-items-center">
-                            <b-icon class="mb-2 mr-2 h4 mt-2" icon="geo-alt-fill"></b-icon> 
+                            <b-icon class="mb-2 mr-2 h4 mt-2" icon="geo-alt-fill"></b-icon>
                             <h5 class="align-items-center mt-2">Место проведения</h5>
                         </div>
                         <h4 class="mt-2 font-weight-bold">{{EVENT_DETAILS.location.address}}</h4>
@@ -75,8 +75,8 @@
                 required
             ></b-form-textarea>
             <p class="mt-2 mb-1">Новая дата мероприятия: </p>
-            <b-form-datepicker 
-            v-model="EVENT_DETAILS.day" 
+            <b-form-datepicker
+            v-model="EVENT_DETAILS.day"
             class="mt-2"
             :min="min"
             :date-disabled-fn="disabledDate"
@@ -85,8 +85,8 @@
             <p class="mt-2 mb-1">Новая локация мероприятия: </p>
             <b-form-input disabled v-model="updatedAddress" placeholder="Выберите локацию" class="mt-2"></b-form-input>
                     <b-dropdown id="dropdown-1" text="Выберите локацию" class="m-md-2">
-                        <b-dropdown-item 
-                        v-for="locationItem in locations" 
+                        <b-dropdown-item
+                        v-for="locationItem in locations"
                         :key="locationItem.id"
                         @click="selectLocationId(locationItem.id, locationItem.address)"
                         >
@@ -107,110 +107,110 @@
             </template>
         </b-modal>
         </div>
-        
+
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 export default {
-    name: 'EventDetails',
-    data(){
-        const now = new Date()
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-        
-        return {
-            updatedLocationId: '',
-            updatedAddress: '',
-            updatedName: '',
-            updatedDescription: '',
-            updatedDay: '',
-            min: '',
-            todayDay: today
-        }
+  name: 'EventDetails',
+  data () {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
+    return {
+      updatedLocationId: '',
+      updatedAddress: '',
+      updatedName: '',
+      updatedDescription: '',
+      updatedDay: '',
+      min: '',
+      todayDay: today
+    }
+  },
+  methods: {
+    ...mapActions([
+      'editEvent',
+      'deleteEvent',
+      'getAllLocations',
+      'getEventDetails',
+      'getAllEvents'
+    ]),
+    toastError (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Ошибка!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
     },
-    methods: {
-        ...mapActions([
-            'editEvent',
-            'deleteEvent',
-            'getAllLocations',
-            'getEventDetails',
-            'getAllEvents'
-        ]),
-       toastError(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Ошибка!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        toastSuccess(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Отлично!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        deleteEventBtn(){
-            this.$refs['modalDelete'].show()
-        },
-        deleteEventFromModal(){
-            this.deleteEvent(this.EVENT_DETAILS.id)
-            .then(() => {
-                this.$refs['modalDelete'].hide();
-                this.toastSuccess('success', 'Ваше мероприятие успешно удалено')
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        },
-        editEventBtn(){
-            this.$refs['modalEdit'].show()
-            this.getAllLocations()
-        },
-        addNewEditedEvent(){
-            if(this.EVENT_DETAILS.name && this.EVENT_DETAILS.description  && this.updatedAddress && this.EVENT_DETAILS.day) { 
-            this.$store.dispatch('editEvent', {
-                day: this.EVENT_DETAILS.day,
-                description: this.EVENT_DETAILS.description,
-                id: this.EVENT_DETAILS.id,
-                location: this.updatedLocationId,
-                name: this.EVENT_DETAILS.name
-            })
-            .then(() => {
-                this.$refs['modalEdit'].hide();
-                this.toastSuccess('success', 'Детали мероприятия были успешно изменены')
-            })
-            .catch(error => {
-                console.log(error);
-                this.toastError('danger', error.message.split(':')[1])
-            })
-            } else {
-                this.toastError('danger', 'Заполните поля')
-            }
-        },
-        selectLocationId(id, address){
-            this.updatedLocationId = id
-            this.updatedAddress = address
-        },
-        disabledDate(){
-            this.min = this.todayDay
-        }
+    toastSuccess (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Отлично!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
     },
-    computed: {
-        ...mapGetters([
-            'EVENTS',
-            'EVENT_DETAILS',
-            'NOT_FOUND',
-            'locations',
-            'MY_EVENTS'
-        ])
+    deleteEventBtn () {
+      this.$refs.modalDelete.show()
     },
-    created(){
-        this.$store.dispatch('getEventDetails', parseInt(this.$route.params.id))
+    deleteEventFromModal () {
+      this.deleteEvent(this.EVENT_DETAILS.id)
+        .then(() => {
+          this.$refs.modalDelete.hide()
+          this.toastSuccess('success', 'Ваше мероприятие успешно удалено')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
+    editEventBtn () {
+      this.$refs.modalEdit.show()
+      this.getAllLocations()
+    },
+    addNewEditedEvent () {
+      if (this.EVENT_DETAILS.name && this.EVENT_DETAILS.description && this.updatedAddress && this.EVENT_DETAILS.day) {
+        this.$store.dispatch('editEvent', {
+          day: this.EVENT_DETAILS.day,
+          description: this.EVENT_DETAILS.description,
+          id: this.EVENT_DETAILS.id,
+          location: this.updatedLocationId,
+          name: this.EVENT_DETAILS.name
+        })
+          .then(() => {
+            this.$refs.modalEdit.hide()
+            this.toastSuccess('success', 'Детали мероприятия были успешно изменены')
+          })
+          .catch(error => {
+            console.log(error)
+            this.toastError('danger', error.message.split(':')[1])
+          })
+      } else {
+        this.toastError('danger', 'Заполните поля')
+      }
+    },
+    selectLocationId (id, address) {
+      this.updatedLocationId = id
+      this.updatedAddress = address
+    },
+    disabledDate () {
+      this.min = this.todayDay
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'EVENTS',
+      'EVENT_DETAILS',
+      'NOT_FOUND',
+      'locations',
+      'MY_EVENTS'
+    ])
+  },
+  created () {
+    this.$store.dispatch('getEventDetails', parseInt(this.$route.params.id))
+  }
 }
 </script>
 
@@ -226,9 +226,6 @@ export default {
 .description-details{
     margin-top: 120px;
 }
-/* .details-info{
-    margin: 100px 25px 0px 25px
-} */
 .details-title{
     margin-left: 290px;
 }

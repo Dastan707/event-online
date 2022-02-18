@@ -23,112 +23,104 @@
 </template>
 
 <script>
-import Modal from './ModalLocation.vue'
 import { mapGetters } from 'vuex'
-import Pagination from './Pagination.vue'
 export default {
-    name: 'Glocation',
-    components: {
-        Modal,
-        Pagination
-    },
-    data() {
-      return {
-        title: '',
-        id: null,
-        isVisibleModal: false,
-        isVisibleLocation: '',
-        errors: '',
-        currentPage: 1
-      }
-    },
-    computed: {
-        ...mapGetters({
-            locations: 'locations',
-            isLoadingBtn: 'isLoadingBtn',
-            isLoading: 'isLoading',
-            error: 'error'
-        }),
-        pages() {
-            const pagesCount = Math.ceil(this.total / this.limit)
-            return [...Array(pagesCount).keys()].map(el => el + 1)
-        },
-    },
-    updated() {
-        if(this.title) this.errors = ''
-    },
-    methods: {
-         toastError(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Ошибка!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        toastSuccess(variant = null, body){
-            this.$bvToast.toast(`${body}`, {
-                title: `Отлично!`,
-                variant: variant,
-                solid: true,
-                autoHideDelay: 700
-            })
-        },
-        getAllLocations() {
-            this.$store.dispatch('getAllLocations')
-        },
-        createLocation() {
-            if(!this.title) {
-                this.errors = 'Поле не заполнено'
-                return    
-            }
-            this.$store.dispatch('createLocation', this.title).then(() => {
-                this.toastSuccess('success', 'Добавление выполнено')
-                this.closeModal()
-            })
-            
-        },
-        editLocation(locationId) {
-            if(!this.title) {
-                this.errors = 'Поле не заполнено'
-                return    
-            }
-            this.$store.dispatch('editLocation', {
-                id: locationId, title: this.title
-            }).then(() => {
-                    this.toastSuccess('success', 'Изменение выполнено')
-                    this.closeModal()
-                }).catch(error => {
-                    this.toastError('danger', error.message.split(':')[1])
-                    this.$store.commit('EDIT_LOCATION_FAILURE')
-                })
-        },
-        deleteLocation(id) {  
-            this.$store.dispatch('deleteLocation', id).then(() => {
-                this.toastSuccess('success', 'Удаление выполнено')
-            })
-            .catch(error => {
-                this.toastError('danger', error.message.split(':')[1])
-                this.$store.commit('DELETE_LOCATION_FAILURE', error.message)
-                console.log(error.message);
-            })
-        },
-        showModal(key, id) {
-            this.isVisibleModal = true
-            this.isVisibleLocation = key
-            this.id = id
-        },
-        closeModal() {
-            this.isVisibleLocation = null
-            this.errors = ''
-            this.title = ''
-        },
-    },
-        
-    mounted() {
-        this.getAllLocations()
+  name: 'Glocation',
+  data () {
+    return {
+      title: '',
+      id: null,
+      isVisibleModal: false,
+      isVisibleLocation: '',
+      errors: '',
+      currentPage: 1
     }
-    
+  },
+  computed: {
+    ...mapGetters({
+      locations: 'locations',
+      isLoadingBtn: 'isLoadingBtn',
+      isLoading: 'isLoading',
+      error: 'error'
+    }),
+    pages () {
+      const pagesCount = Math.ceil(this.total / this.limit)
+      return [...Array(pagesCount).keys()].map(el => el + 1)
+    }
+  },
+  updated () {
+    if (this.title) this.errors = ''
+  },
+  methods: {
+    toastError (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Ошибка!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    toastSuccess (variant = null, body) {
+      this.$bvToast.toast(`${body}`, {
+        title: 'Отлично!',
+        variant: variant,
+        solid: true,
+        autoHideDelay: 700
+      })
+    },
+    getAllLocations () {
+      this.$store.dispatch('getAllLocations')
+    },
+    createLocation () {
+      if (!this.title) {
+        this.errors = 'Поле не заполнено'
+        return
+      }
+      this.$store.dispatch('createLocation', this.title).then(() => {
+        this.toastSuccess('success', 'Добавление выполнено')
+        this.closeModal()
+      })
+    },
+    editLocation (locationId) {
+      if (!this.title) {
+        this.errors = 'Поле не заполнено'
+        return
+      }
+      this.$store.dispatch('editLocation', {
+        id: locationId, title: this.title
+      }).then(() => {
+        this.toastSuccess('success', 'Изменение выполнено')
+        this.closeModal()
+      }).catch(error => {
+        this.toastError('danger', error.message.split(':')[1])
+        this.$store.commit('EDIT_LOCATION_FAILURE')
+      })
+    },
+    deleteLocation (id) {
+      this.$store.dispatch('deleteLocation', id).then(() => {
+        this.toastSuccess('success', 'Удаление выполнено')
+      })
+        .catch(error => {
+          this.toastError('danger', error.message.split(':')[1])
+          this.$store.commit('DELETE_LOCATION_FAILURE', error.message)
+          console.log(error.message)
+        })
+    },
+    showModal (key, id) {
+      this.isVisibleModal = true
+      this.isVisibleLocation = key
+      this.id = id
+    },
+    closeModal () {
+      this.isVisibleLocation = null
+      this.errors = ''
+      this.title = ''
+    }
+  },
+  mounted () {
+    this.getAllLocations()
+  }
+
 }
 </script>
 

@@ -2,12 +2,12 @@
     <div>
         <h3 v-if="errors">{{errors}}</h3>
         <ul v-else class="card-list">
-            <li 
+            <li
                 v-for="event in eventsFrom"
                 :key="event.id"
                 class="card-list__item"
-            >    
-                <h4>{{event.name}}</h4>  
+            >
+                <h4>{{event.name}}</h4>
                 <p>{{event.description}}</p>
                 <p>{{(new Date(event.day)).toLocaleDateString()}}</p>
                 <span>Организатор: <strong>{{event.account.username}}</strong></span>
@@ -17,35 +17,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 export default {
-    name: "GcardLocation",
-
-    props: {
-       
-    },
-
-    methods: {
-    },
-
-    computed: {
-        ...mapGetters({
-            eventsFrom: 'EVENTS_FROM_LOCATION',
-            errors: 'ERRORS'
-        })
-    },
-    updated() {
-        // console.log(this.eventsFrom);
-        // console.log(this.errors, 'errors')
-    },
-
-    created() {
-        // console.log(this.$route.params);
-        this.$store.dispatch('getAllEventsFromLocation', parseInt(this.$route.params.id))
-        .then(res => {
-            console.log(res);
-        })
-    }
+  name: 'GcardLocation',
+  computed: {
+    ...mapGetters({
+      eventsFrom: 'EVENTS_FROM_LOCATION',
+      errors: 'ERRORS'
+    })
+  },
+  created () {
+    this.$store.dispatch('getAllEventsFromLocation', parseInt(this.$route.params.id))
+      .then(res => {
+        console.log(res)
+      })
+  }
 }
 </script>
 

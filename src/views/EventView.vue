@@ -7,13 +7,13 @@
 <script>
 import EventsList from '../components/Events/EventsList.vue'
 export default {
-    name: 'EventView',
-    components: {EventsList},
-    data(){
-        return {
+  name: 'EventView',
+  components: { EventsList },
+  data () {
+    return {
 
-        }
     }
+  }
 }
 </script>
 

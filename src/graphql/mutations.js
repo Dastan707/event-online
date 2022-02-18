@@ -1,5 +1,4 @@
-import gql from "graphql-tag";
-
+import gql from 'graphql-tag'
 
 export const REGISTER_USER = gql`
 mutation(
@@ -31,7 +30,6 @@ export const CHANGE_PASSWORD = gql`
     }
 `
 
-
 export const LOGIN_USER = gql`
 mutation($email: String!, $password: String!) {
     login(loginUserInput: { email: $email, password: $password }) {
@@ -41,7 +39,6 @@ mutation($email: String!, $password: String!) {
   }
   
 `
-
 
 export const ADD_EVENT = gql`
 mutation($name:String!, $description: String!, $day: String!, $location: Float!){
@@ -125,7 +122,7 @@ mutation($id: Int!, $address: String!) {
       id
     }
   }
-`;
+`
 
 export const DELETE_LOCATION = gql`
     mutation($id: Int!){
@@ -133,4 +130,4 @@ export const DELETE_LOCATION = gql`
             id
         }
     }
-`;
+`
