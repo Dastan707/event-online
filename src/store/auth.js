@@ -13,16 +13,11 @@ const state = {
 const getters = {
     isAuth: state => state.isAuth,
     errorsChangePassword: state => state.errorsChangePassword,
-    USER: state => state.currentUser,
-    // myLocations: state => state.currentUser.locations
+    USER: state => state.currentUser
 }
 
 const mutations = {
-      registerSuccess(state, payload){
-        // state.currentUser = payload;
-      },
       loginSuccess(state, payload){
-        // state.currentUser = payload
         state.isAuth = true
       },
       setToken(state, payload){
@@ -57,7 +52,6 @@ const actions = {
           }
         });
         console.log(response.data.signup, 'data');
-        // commit('registerSuccess', response.data.signup);
       },
       async loginUser({commit, dispatch}, user){
         const response = await apolloClient.mutate({
@@ -67,7 +61,6 @@ const actions = {
             password: user.password
           }
         });
-        console.log(response.data.login, 'responsedata');
         commit('loginSuccess')
         dispatch('getCurrentUser')
         dispatch('getAllLocationsByUser')
@@ -82,8 +75,6 @@ const actions = {
           console.log(res);
             commit('getCurrentUserSuccess', {...res.data.profile, access_token: token})
         })
-        
-
       },
 
       async changePassword({commit}, payload) {
@@ -96,12 +87,10 @@ const actions = {
           }
         })
       },
-
       logoutUser({commit}){
         onLogout(apolloClient)
         commit('setLogoutUser', null)
       }
-
 }
 
 export default {
