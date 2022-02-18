@@ -159,7 +159,6 @@ const actions = {
   },
 
   async getAllEventsFromLocation ({ commit }, id) {
-    console.log(id)
     await apolloClient.query({
       query: GET_ALL_EVENTS_FROM_LOCATION,
       variables: { id: id }
@@ -175,7 +174,6 @@ const actions = {
   },
 
   async getEventDetails ({ commit }, eventId) {
-    console.log(eventId, 'resp')
     const response = await apolloClient.query({
       query: GET_EVENT_BY_ID,
       variables: {

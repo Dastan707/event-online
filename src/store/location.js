@@ -94,7 +94,6 @@ const actions = {
       query: LOCATIONS_BY_USER
     }).then(res => {
       commit('ALL_LOCATIONS_BY_USER_SUCCESS', res.data.locationsByUser)
-      console.log(res)
     })
   },
 
@@ -104,7 +103,6 @@ const actions = {
       mutation: CREATE_LOCATION,
       variables: { address: address }
     }).then((res) => {
-      console.log(res.data.createLocation)
       const location = res.data.createLocation
       commit('CREATE_LOCATION_SUCCESS', location)
     })
@@ -118,8 +116,6 @@ const actions = {
         address: payload.title
       }
     }).then((res) => {
-      console.log(res.data.updateLocation)
-      // dispatch('getAllLocations')
       commit('EDIT_LOCATION_SUCCESS', res.data.updateLocation)
     })
   },
